@@ -1,0 +1,64 @@
+#include <iostream>
+#include "badguys.h"
+#include "ally.h"
+#include "punch.h"
+#include "attacks.h"
+#include "kick.h"
+#include <cstdlib>
+#include <ctime>
+
+using namespace std;
+
+int main()
+{
+    badguys enemy, yourattack;
+    ally you, enemyattack;
+    you.setHP(100, 100);
+    enemy.setHP(100, 100);
+    int power;
+    punch p;
+    kick k;
+    attacks *jab = &p;
+
+    int punchpower, kickpower;
+    int num;
+    jab->setAttackPower(30);
+
+    attacks *legkick = &k;
+    legkick->setAttackPower(60);
+
+
+    while(enemy.getHealth() > 0 && you.getHealth() > 0)
+    {
+        punchpower = p.getPunchPower();
+        kickpower = k.getKickPower();
+        cout << "Press 1 for your punch, press 2 for your Kick: ";
+        cin >> num;
+        if(num == 1)
+        {
+            yourattack.setDamage(punchpower);
+        }else if(num == 2){
+            yourattack.setDamage(kickpower);
+        }
+        if(yourattack.getDamage() == 0){
+            cout << "your attack missed :(" << endl;
+        }else{
+            enemy = enemy - yourattack;
+        }
+        if(enemy.getHealth() <= 0)
+        {
+            cout << "YOU WIN!";
+            break;
+        }
+        enemyattack.setDamage(45);
+        you = you - enemyattack;
+        if(you.getHealth() <= 0)
+        {
+            cout << "YOU LOSE :(";
+            break;
+        }
+        you.showHealth();
+        enemy.showHealth();
+        cout << endl << endl;
+    }
+}
